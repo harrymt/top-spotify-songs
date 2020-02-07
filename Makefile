@@ -15,3 +15,6 @@ backend:
 	cd api && ./manage.py migrate
 	cd api && echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('superuser', 'superuser@demo.com', 'demo')" | python manage.py shell
 	cd api && ./manage.py runserver 9090
+
+e2e:
+	cd integration_tests && yarn open

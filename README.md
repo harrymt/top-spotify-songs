@@ -9,11 +9,12 @@ Written in Python and Typescript. Using Django (v2), React and GraphQL.
 
 ## Run
 
-In new terminals run
+In new terminals run:
 
 ```bash
 $ make frontend
 $ make backend
+$ make e2e
 ```
 
 After install, go to http://localhost:3000 and try logging in with the user you created.
