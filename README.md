@@ -1,51 +1,32 @@
-# django-react-graphql-starter
+# Top Spotify Songs
 
-A starter kit for Django and React, connected by GraphQL
+Dashboard to show data and visualisation about my spotify habits.
 
-## Why it matters
+Written in Python and Typescript. Using Django (v2), React and GraphQL. 
 
-Django is a great tool for rapid backend development.  
+- Uses [Graphene](http://graphene-python.org/) for the backend
+- Uses [Apollo Client](https://www.apollographql.com/docs/react/) for the frontend
 
-React is a great tool for rapid frontend development.
-
-This starter brings these two great tools together!
-
-Django has excellent GraphQL support via the [Graphene](http://graphene-python.org/) library. With a great deal of ease and very little code you can create your database 
-models and expose them to your UI with GraphQL. On the UI side, GraphQL queries and mutations are connected 
-to your React components via the wonderful [Apollo Client](https://www.apollographql.com/docs/react/).
-
-This starter kit also includes an authentication demo using JSON Web Tokens.
-
-## Requirements
-
-* Python
-* Node.js
-* Yarn (optional)
-
-## Install / Run
+## Setup
 
 ### Backend
 
-Edit myapp/settings.py if you want to setup a database connection other than the default sqlite.
+Edit `api/myapp/settings.py` if you want to setup a database connection other than the default sqlite.
 
 ```bash
-cd be
+cd api
 pip install -r requirements.txt
 ./manage.py migrate
 ./manage.py createsuperuser
 ./manage.py runserver 9090
-
 ```
 
 ### Frontend
 
 ```bash
-cd ui
+cd frontend
 yarn install
 yarn start
 ```
 
 After install, go to http://localhost:3000 and try logging in with the user you created.
-
-
-Have fun!
