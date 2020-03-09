@@ -16,7 +16,7 @@ def get_user_jwt(request):
         if user_jwt is not None:
             # store the first part from the tuple (user, obj)
             user = user_jwt[0]
-    except Exception as e:
+    except Exception as _:
         logger.exception('jwt exception')
 
     return user or AnonymousUser()

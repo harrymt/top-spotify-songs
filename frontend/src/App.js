@@ -1,14 +1,14 @@
-import React, { Component } from 'react'
-import logo from './logo.svg'
-import './App.css'
-import { graphql } from 'react-apollo'
-import { gql } from 'apollo-client-preset'
-import { branch, compose, renderComponent } from 'recompose'
-import * as R from 'ramda'
-import { Field, reduxForm, SubmissionError } from 'redux-form'
-import { catchSubmissionError, graphqlErrorMessages } from './util'
-import { connect } from 'react-redux'
-import { logout } from './state/modules/auth'
+import React, { Component } from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import { graphql } from "react-apollo";
+import { gql } from "apollo-client-preset";
+import { branch, compose, renderComponent } from "recompose";
+import * as R from "ramda";
+import { Field, reduxForm, SubmissionError } from "redux-form";
+import { catchSubmissionError, graphqlErrorMessages } from "./util";
+import { connect } from "react-redux";
+import { logout } from "./state/modules/auth";
 
 const CurrentUserFragment = gql`
   fragment CurrentUser on CurrentUserNode {
@@ -18,7 +18,7 @@ const CurrentUserFragment = gql`
     firstName
     lastName
   }
-`
+`;
 
 const CurrentUserQuery = gql`
   query {
@@ -27,7 +27,7 @@ const CurrentUserQuery = gql`
     }
   }
   ${CurrentUserFragment}
-`
+`;
 
 const LoginMutation = gql`
   mutation($username: String!, $password: String!) {
@@ -41,9 +41,9 @@ const LoginMutation = gql`
     }
   }
   ${CurrentUserFragment}
-`
+`;
 
-const required = value => (value ? undefined : 'Required')
+const required = value => (value ? undefined : "Required");
 
 const TextField = ({
   input,
@@ -56,23 +56,23 @@ const TextField = ({
     <div>
       <input {...input} placeholder={label} type={type} />
       {touched &&
-        ((error && <span style={{ color: 'red' }}>{error}</span>) ||
+        ((error && <span style={{ color: "red" }}>{error}</span>) ||
           (warning && <span>{warning}</span>))}
     </div>
   </div>
-)
+);
 
 const FormError = ({ error }) =>
   error ? (
-    <div style={{ color: 'red' }}>
-      Error:{' '}
+    <div style={{ color: "red" }}>
+      Error:{" "}
       {Array.isArray(error) ? (
-        <div style={{ whiteSpace: 'pre' }}>{error.join('\n')}</div>
+        <div style={{ whiteSpace: "pre" }}>{error.join("\n")}</div>
       ) : (
         error
       )}
     </div>
-  ) : null
+  ) : null;
 
 const CurrentUser = compose(
   connect(null, { logout }),
@@ -84,13 +84,13 @@ const CurrentUser = compose(
     })
   }),
   branch(
-    R.prop('currentUserLoading'),
+    R.prop("currentUserLoading"),
     renderComponent(() => <p>Loading...</p>)
   ),
   branch(
-    R.prop('currentUserError'),
+    R.prop("currentUserError"),
     renderComponent(({ currentUserError }) => (
-      <p style={{ color: 'red' }}>
+      <p style={{ color: "red" }}>
         Error: {graphqlErrorMessages(currentUserError)}
       </p>
     ))
@@ -100,63 +100,75 @@ const CurrentUser = compose(
       onSubmit: values =>
         mutate({
           variables: values,
-          update: (proxy, { data: { login: { user } } }) => {
-            const data = proxy.readQuery({ query: CurrentUserQuery })
-            data.currentUser = user
-            proxy.writeQuery({ query: CurrentUserQuery, data })
+          update: (
+            proxy,
+            {
+              data: {
+                login: { user }
+              }
+            }
+          ) => {
+            const data = proxy.readQuery({ query: CurrentUserQuery });
+            data.currentUser = user;
+            proxy.writeQuery({ query: CurrentUserQuery, data });
           }
         })
-          .then(({ data: { login: { success, error, token } } }) => {
-            if (!success) {
-              throw new SubmissionError({ _error: error })
+          .then(
+            ({
+              data: {
+                login: { success, error, token }
+              }
+            }) => {
+              if (!success) {
+                throw new SubmissionError({ _error: error });
+              }
+              localStorage.setItem("token", token);
             }
-            localStorage.setItem('token', token)
-          })
+          )
           .catch(catchSubmissionError)
     })
   }),
   reduxForm({
-    form: 'login'
+    form: "login"
   })
-)(
-  ({ currentUser, handleSubmit, error, loading, logout }) =>
-    currentUser ? (
-      <p>
-        Hello, {currentUser.username} <button onClick={logout}>Log out</button>
-      </p>
-    ) : (
-      <form onSubmit={handleSubmit}>
-        <Field component={TextField} name='username' validate={required} />
-        <Field
-          component={TextField}
-          type='password'
-          name='password'
-          validate={required}
-        />
-        <FormError error={error} />
-        <div>
-          <button type='submit' disabled={loading}>
-            Log in
-          </button>
-        </div>
-      </form>
-    )
-)
+)(({ currentUser, handleSubmit, error, loading, logout }) =>
+  currentUser ? (
+    <p>
+      Hello, {currentUser.username} <button onClick={logout}>Log out</button>
+    </p>
+  ) : (
+    <form onSubmit={handleSubmit}>
+      <Field component={TextField} name="username" validate={required} />
+      <Field
+        component={TextField}
+        type="password"
+        name="password"
+        validate={required}
+      />
+      <FormError error={error} />
+      <div>
+        <button type="submit" disabled={loading}>
+          Log in
+        </button>
+      </div>
+    </form>
+  )
+);
 
 class App extends Component {
-  render () {
+  render() {
     return (
-      <div className='App'>
-        <header className='App-header'>
-          <img src={logo} className='App-logo' alt='logo' />
-          <h1 className='App-title'>Welcome to React</h1>
+      <div className="App">
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <h1 className="App-title">Welcome to React</h1>
         </header>
-        <div className='App-intro'>
+        <div className="App-intro">
           <CurrentUser />
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default App
+export default App;
