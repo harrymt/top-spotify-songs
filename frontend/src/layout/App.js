@@ -8,7 +8,7 @@ import * as R from "ramda";
 import { Field, reduxForm, SubmissionError } from "redux-form";
 import { catchSubmissionError, graphqlErrorMessages } from "./util";
 import { connect } from "react-redux";
-import { logout } from "./state/modules/auth";
+import { logout } from "../state/modules/auth";
 
 const CurrentUserFragment = gql`
   fragment CurrentUser on CurrentUserNode {

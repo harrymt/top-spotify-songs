@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
-import App from "./App";
-import registerServiceWorker from "./registerServiceWorker";
+import "./layout/index.css";
+import App from "./layout/App";
+import registerServiceWorker from "./layout/registerServiceWorker";
 import { ApolloProvider } from "react-apollo";
 import { Provider as ReduxProvider } from "react-redux";
 import apolloClient from "./state/apolloClient";
